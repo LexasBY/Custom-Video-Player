@@ -15,16 +15,18 @@ function togglePlay() {
 
 function updateButton() {
   const icon = this.paused ? '►' : '❚ ❚';
-  console.log(icon);
+  //console.log(icon);
   toggle.textContent = icon;
 }
 
 function skip() {
- video.currentTime += parseFloat(this.dataset.skip);
+ video.currentTime += parseFloat(this.dataset.skip); //parseFloat() принимает строку в качестве аргумента и возвращает десятичное число (число с плавающей точкой)
 }
 
 function handleRangeUpdate() {
   video[this.name] = this.value;
+  console.log(`${this.name}`, "=" , `${this.value}`)
+  
 }
 
 function handleProgress() {
@@ -38,18 +40,18 @@ function scrub(e) {
 }
 
 /* Hook up the event listeners */
-video.addEventListener('click', togglePlay);
-video.addEventListener('play', updateButton);
-video.addEventListener('pause', updateButton);
-video.addEventListener('timeupdate', handleProgress);
+video.addEventListener('click', togglePlay); // клик левой кнопкой мыши
+video.addEventListener('play', updateButton); // событие воспроизведение началось
+video.addEventListener('pause', updateButton); // -- воспроизведение было приостановлено.
+video.addEventListener('timeupdate', handleProgress); // --время, указанное атрибутом currentTime, было обновлено.
 
-toggle.addEventListener('click', togglePlay);
+toggle.addEventListener('click', togglePlay); 
 skipButtons.forEach(button => button.addEventListener('click', skip));
-ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
-ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate));
+ranges.forEach(range => range.addEventListener('change', handleRangeUpdate)); //происходит по окончании изменения значения элемента формы, когда это изменение зафиксировано.
+ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate)); //Указывающее устройство перемещается по элементу. (Происходит непрерывно при движении мыши.)
 
 let mousedown = false;
 progress.addEventListener('click', scrub);
-progress.addEventListener('mousemove', (e) => mousedown && scrub(e));
-progress.addEventListener('mousedown', () => mousedown = true);
-progress.addEventListener('mouseup', () => mousedown = false);
+progress.addEventListener('mousemove', (e) => mousedown && scrub(e)); //Указывающее устройство перемещается по элементу.
+progress.addEventListener('mousedown', () => mousedown = true); //На элементе нажимается кнопка указывающего устройства.
+progress.addEventListener('mouseup', () => mousedown = false); 
